@@ -13,10 +13,8 @@ import {
 
 export namespace Components {
   interface AppHome {}
-  interface AppProfile {
-    'match': MatchResults;
-  }
   interface AppRoot {}
+  interface OktaLogin {}
 }
 
 declare global {
@@ -28,35 +26,33 @@ declare global {
     new (): HTMLAppHomeElement;
   };
 
-  interface HTMLAppProfileElement extends Components.AppProfile, HTMLStencilElement {}
-  var HTMLAppProfileElement: {
-    prototype: HTMLAppProfileElement;
-    new (): HTMLAppProfileElement;
-  };
-
   interface HTMLAppRootElement extends Components.AppRoot, HTMLStencilElement {}
   var HTMLAppRootElement: {
     prototype: HTMLAppRootElement;
     new (): HTMLAppRootElement;
   };
+
+  interface HTMLOktaLoginElement extends Components.OktaLogin, HTMLStencilElement {}
+  var HTMLOktaLoginElement: {
+    prototype: HTMLOktaLoginElement;
+    new (): HTMLOktaLoginElement;
+  };
   interface HTMLElementTagNameMap {
     'app-home': HTMLAppHomeElement;
-    'app-profile': HTMLAppProfileElement;
     'app-root': HTMLAppRootElement;
+    'okta-login': HTMLOktaLoginElement;
   }
 }
 
 declare namespace LocalJSX {
   interface AppHome {}
-  interface AppProfile {
-    'match'?: MatchResults;
-  }
   interface AppRoot {}
+  interface OktaLogin {}
 
   interface IntrinsicElements {
     'app-home': AppHome;
-    'app-profile': AppProfile;
     'app-root': AppRoot;
+    'okta-login': OktaLogin;
   }
 }
 
@@ -69,6 +65,7 @@ declare module "@stencil/core" {
       'app-home': LocalJSX.AppHome & JSXBase.HTMLAttributes<HTMLAppHomeElement>;
       'app-profile': LocalJSX.AppProfile & JSXBase.HTMLAttributes<HTMLAppProfileElement>;
       'app-root': LocalJSX.AppRoot & JSXBase.HTMLAttributes<HTMLAppRootElement>;
+      'okta-login': LocalJSX.OktaLogin & JSXBase.HTMLAttributes<HTMLOktaLoginElement>;
     }
   }
 }

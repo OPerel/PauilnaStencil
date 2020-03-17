@@ -1,4 +1,4 @@
-import { Component, h } from '@stencil/core';
+import { Component, h, State } from '@stencil/core';
 
 
 @Component({
@@ -7,6 +7,11 @@ import { Component, h } from '@stencil/core';
   shadow: true
 })
 export class AppRoot {
+  @State() isAuthenticated: boolean;
+
+  constructor() {
+    this.isAuthenticated = false;
+  }
 
   render() {
     return (
@@ -18,8 +23,8 @@ export class AppRoot {
         <main>
           <stencil-router>
             <stencil-route-switch scrollTopOffset={0}>
+              <stencil-route url='/login' component='okta-login' />
               <stencil-route url='/' component='app-home' exact={true} />
-              <stencil-route url='/profile/:name' component='app-profile' />
             </stencil-route-switch>
           </stencil-router>
         </main>
