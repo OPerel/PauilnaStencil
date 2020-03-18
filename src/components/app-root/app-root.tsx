@@ -1,4 +1,4 @@
-import { Component, h, State, Prop } from '@stencil/core';
+import { Component, h, State, Prop, Listen } from '@stencil/core';
 import { RouterHistory } from '@stencil/router';
 
 import { PrivateRoute } from '../private-route/private-route';
@@ -12,6 +12,10 @@ import { Auth } from '../../helpers/oktaAuth';
 export class AppRoot {
   @Prop() history: RouterHistory;
   @State() isAuth: boolean;
+  @Listen('loginSubmit')
+  handleLogin(e: CustomEvent) {
+    this.isAuth = e.detail;
+  }
 
   constructor() {}
 

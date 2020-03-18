@@ -1,4 +1,4 @@
-import { Component, h, State, Prop } from '@stencil/core';
+import { Component, h, State, Prop, Event, EventEmitter } from '@stencil/core';
 import { RouterHistory } from '@stencil/router';
 
 import { Auth } from '../../helpers/oktaAuth';
@@ -12,13 +12,23 @@ export class Login {
   @State() userName: string;
   @State() password: string;
   @Prop() history: RouterHistory;
+  @Event({ eventName: 'loginSubmit' }) loginSubmit: EventEmitter;
 
   handleLoginSubmit = (e: UIEvent): void => {
     e.preventDefault();
-    console.log('user: ', this.userName);
-    console.log('password: ', this.password);
-    Auth.login();
-    this.history.push('/home');
+
+    const user = {
+      username: this.userName,
+      password: this.password
+    };
+
+    Auth.login(user).then(res => {
+      if (res) {
+        console.log('login success: ', res)
+        this.loginSubmit.emit(res)
+        this.history.push('/');
+      }
+    }).catch(err => console.log('login err: ', err));
   }
 
   handleUserNameChange = (e: UIEvent): void => {
@@ -43,12 +53,12 @@ export class Login {
           <h4>Please Login</h4>
           <label>
             User Name:
-            <input type="text" onInput={(e: UIEvent) => this.handleUserNameChange(e)} />
+            <input type="text" value={this.userName} onInput={(e: UIEvent) => this.handleUserNameChange(e)} />
           </label>
 
           <label>
             Password:
-            <input type="text" onInput={(e: UIEvent) => this.handlePasswordChange(e)} />
+            <input type="password" onInput={(e: UIEvent) => this.handlePasswordChange(e)} />
           </label>
 
           <input type="submit" value="Login" />

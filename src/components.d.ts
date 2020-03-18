@@ -55,6 +55,7 @@ declare namespace LocalJSX {
   }
   interface OktaLogin {
     'history'?: RouterHistory;
+    'onLoginSubmit'?: (event: CustomEvent<any>) => void;
   }
 
   interface IntrinsicElements {
