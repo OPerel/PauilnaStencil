@@ -42,7 +42,7 @@ export class Login {
 
   componentWillLoad() {
     Auth.isAuthenticated().then(res => {
-      if (res) this.history.push('/');
+      if (res) this.history.push('/flow-management');
     });
   }
 

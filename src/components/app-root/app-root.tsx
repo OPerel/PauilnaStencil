@@ -1,4 +1,4 @@
-import { Component, h, State, Prop, Listen } from '@stencil/core';
+import { Component, h, State, Prop, Listen, Watch } from '@stencil/core';
 import { RouterHistory } from '@stencil/router';
 
 import { PrivateRoute } from '../private-route/private-route';
@@ -12,9 +12,14 @@ import { Auth } from '../../helpers/oktaAuth';
 export class AppRoot {
   @Prop() history: RouterHistory;
   @State() isAuth: boolean;
+  @State() user: any;
   @Listen('authChange')
-  handleLogin(e: CustomEvent) {
-    this.isAuth = e.detail;
+  async handleLogin(e: CustomEvent) {
+    this.isAuth = e.detail ? true : false;
+  }
+  @Watch('isAuth')
+  async authChanged() {
+    this.user = await Auth.getUser();
   }
 
   constructor() {}
@@ -24,9 +29,10 @@ export class AppRoot {
   }
 
   render() {
+    const name = this.user ? this.user.claims.name : null;
     return (
       <div>
-        <app-header isAuth={this.isAuth} />
+        <app-header isAuth={this.isAuth} userName={name} />
 
         <main>
           <stencil-router>

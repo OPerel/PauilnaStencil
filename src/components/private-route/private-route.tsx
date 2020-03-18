@@ -7,7 +7,6 @@ interface PrivateRouteProps {
 }
 
 export const PrivateRoute: FunctionalComponent<PrivateRouteProps> = ({ url, component, isAuth }) => {
-  console.log('privateRoute: ', isAuth, url, component)
   return (
     <stencil-route routeRender={
       (props: { [key: string]: any}) => {

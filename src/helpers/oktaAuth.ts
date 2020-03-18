@@ -10,45 +10,52 @@ class OktaAuthService {
     redirectUri: 'http://localhost:3333/authorization-code/callback'
     });
     console.log('Okta init');
+    this.login = this.login.bind(this);
   }
 
   isAuthenticated = async (): Promise<boolean> => {
     return await this.authClient.session.exists();
   }
 
-  login = (user: {username: string, password: string}): Promise<boolean> => {
+  login(user: {username: string, password: string}): Promise<any> {
     console.log('logging in');
-    return new Promise<boolean>((resolve, reject) => {
-      this.authClient.signIn(user).then(res => {
-        if (res.status === 'SUCCESS') {
-          this.authClient.token
-            .getWithoutPrompt({
-              responseType: "id_token",
-              scopes: ["openid", "profile", "email"],
-              sessionToken: res.sessionToken,
-              redirectUri: "http://localhost:3333"
-            })
-            .then(token => {
-              console.log(token);
-              this.authClient.tokenManager.add('sessionIdToken', token);
-            })
-            .catch(err => console.log('Failed to get tokens: ', err));
-          resolve(true);
+    return new Promise<any>(async (resolve, reject) => {
+      try {
+        const signIn = await this.authClient.signIn(user);
+        if (signIn.status === 'SUCCESS') {
+          let userName: string;
+          try {
+            const token = await this.authClient.token
+              .getWithoutPrompt({
+                responseType: "id_token",
+                scopes: ["openid", "profile", "email"],
+                sessionToken: signIn.sessionToken,
+                redirectUri: "http://localhost:3333"
+              });
+            userName = token.claims.name;
+            this.authClient.tokenManager.add('idToken', token);
+          } catch (err) {
+            console.log('Failed to get tokens: ', err)
+          }
+          resolve(userName);
         }
         reject(false);
-      })
-      .fail(err => console.warn('Failed to login: ', err));
+      } catch (err) {
+        console.warn('Failed to login: ', err)
+      }
     })
   }
 
   logout = (): void => {
     console.log('logging out');
+    this.authClient.tokenManager.clear();
     this.authClient.signOut();
   }
 
   getUser = async (): Promise<any> => {
     try {
-      return await this.authClient.session.get();
+      const user = await this.authClient.tokenManager.get('idToken');
+      return user;
     } catch (err) {
       return err;
     }

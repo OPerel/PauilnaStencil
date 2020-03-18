@@ -15,6 +15,7 @@ export namespace Components {
   interface AppHeader {
     'history': RouterHistory;
     'isAuth': boolean;
+    'userName': string;
   }
   interface AppHome {}
   interface AppRoot {
@@ -72,6 +73,7 @@ declare namespace LocalJSX {
     'history'?: RouterHistory;
     'isAuth'?: boolean;
     'onAuthChange'?: (event: CustomEvent<any>) => void;
+    'userName'?: string;
   }
   interface AppHome {}
   interface AppRoot {

@@ -10,12 +10,14 @@ import { Auth } from '../../helpers/oktaAuth';
 })
 export class AppHeader {
   @Prop() isAuth: boolean;
+  @Prop() userName: string;
   @Prop() history: RouterHistory;
   @Event({ eventName: 'authChange' }) authChange: EventEmitter;
 
   handleLogout = (): void => {
     Auth.logout();
     this.isAuth = false;
+    this.userName = '';
     this.history.push('/login');
     this.authChange.emit(false);
   }
@@ -25,10 +27,9 @@ export class AppHeader {
       <header>
         <div class="left">
           <h1>FlowBiz</h1>
-          <span>userName</span>
+          <span>{this.userName}</span>
         </div>
         <div class="right">
-          
           <stencil-route-link url='/' exact={true} activeClass="active-link">Home</stencil-route-link>
           {
             this.isAuth ? (
