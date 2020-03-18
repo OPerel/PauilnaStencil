@@ -12,7 +12,7 @@ import { Auth } from '../../helpers/oktaAuth';
 export class AppRoot {
   @Prop() history: RouterHistory;
   @State() isAuth: boolean;
-  @Listen('loginSubmit')
+  @Listen('authChange')
   handleLogin(e: CustomEvent) {
     this.isAuth = e.detail;
   }
@@ -26,15 +26,14 @@ export class AppRoot {
   render() {
     return (
       <div>
-        <header>
-          <h1>Stencil App Starter</h1>
-        </header>
+        <app-header isAuth={this.isAuth} />
 
         <main>
           <stencil-router>
             <stencil-route-switch scrollTopOffset={0}>
-              <stencil-route url='/login' component='okta-login' />
-              <PrivateRoute isAuth={this.isAuth} url='/' component='app-home' />
+              <stencil-route url='/' component='app-home' exact={true} />
+              <stencil-route url='/login' component='okta-login' exact={true} />
+              <PrivateRoute isAuth={this.isAuth} url='/flow-management' component='flow-management' />
             </stencil-route-switch>
           </stencil-router>
         </main>

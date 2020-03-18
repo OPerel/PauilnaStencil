@@ -12,7 +12,7 @@ export class Login {
   @State() userName: string;
   @State() password: string;
   @Prop() history: RouterHistory;
-  @Event({ eventName: 'loginSubmit' }) loginSubmit: EventEmitter;
+  @Event({ eventName: 'authChange' }) authChange: EventEmitter;
 
   handleLoginSubmit = (e: UIEvent): void => {
     e.preventDefault();
@@ -25,10 +25,11 @@ export class Login {
     Auth.login(user).then(res => {
       if (res) {
         console.log('login success: ', res)
-        this.loginSubmit.emit(res)
-        this.history.push('/');
+        this.authChange.emit(res)
+        this.history.push('/flow-management');
       }
-    }).catch(err => console.log('login err: ', err));
+    })
+    .catch(err => console.log('login err: ', err));
   }
 
   handleUserNameChange = (e: UIEvent): void => {

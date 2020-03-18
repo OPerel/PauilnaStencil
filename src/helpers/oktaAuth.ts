@@ -43,6 +43,7 @@ class OktaAuthService {
 
   logout = (): void => {
     console.log('logging out');
+    this.authClient.signOut();
   }
 
   getUser = async (): Promise<any> => {

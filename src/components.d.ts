@@ -12,10 +12,15 @@ import {
 } from '@stencil/router';
 
 export namespace Components {
+  interface AppHeader {
+    'history': RouterHistory;
+    'isAuth': boolean;
+  }
   interface AppHome {}
   interface AppRoot {
     'history': RouterHistory;
   }
+  interface FlowManagement {}
   interface OktaLogin {
     'history': RouterHistory;
   }
@@ -23,6 +28,12 @@ export namespace Components {
 
 declare global {
 
+
+  interface HTMLAppHeaderElement extends Components.AppHeader, HTMLStencilElement {}
+  var HTMLAppHeaderElement: {
+    prototype: HTMLAppHeaderElement;
+    new (): HTMLAppHeaderElement;
+  };
 
   interface HTMLAppHomeElement extends Components.AppHome, HTMLStencilElement {}
   var HTMLAppHomeElement: {
@@ -36,31 +47,47 @@ declare global {
     new (): HTMLAppRootElement;
   };
 
+  interface HTMLFlowManagementElement extends Components.FlowManagement, HTMLStencilElement {}
+  var HTMLFlowManagementElement: {
+    prototype: HTMLFlowManagementElement;
+    new (): HTMLFlowManagementElement;
+  };
+
   interface HTMLOktaLoginElement extends Components.OktaLogin, HTMLStencilElement {}
   var HTMLOktaLoginElement: {
     prototype: HTMLOktaLoginElement;
     new (): HTMLOktaLoginElement;
   };
   interface HTMLElementTagNameMap {
+    'app-header': HTMLAppHeaderElement;
     'app-home': HTMLAppHomeElement;
     'app-root': HTMLAppRootElement;
+    'flow-management': HTMLFlowManagementElement;
     'okta-login': HTMLOktaLoginElement;
   }
 }
 
 declare namespace LocalJSX {
+  interface AppHeader {
+    'history'?: RouterHistory;
+    'isAuth'?: boolean;
+    'onAuthChange'?: (event: CustomEvent<any>) => void;
+  }
   interface AppHome {}
   interface AppRoot {
     'history'?: RouterHistory;
   }
+  interface FlowManagement {}
   interface OktaLogin {
     'history'?: RouterHistory;
-    'onLoginSubmit'?: (event: CustomEvent<any>) => void;
+    'onAuthChange'?: (event: CustomEvent<any>) => void;
   }
 
   interface IntrinsicElements {
+    'app-header': AppHeader;
     'app-home': AppHome;
     'app-root': AppRoot;
+    'flow-management': FlowManagement;
     'okta-login': OktaLogin;
   }
 }
@@ -71,8 +98,10 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
   export namespace JSX {
     interface IntrinsicElements {
+      'app-header': LocalJSX.AppHeader & JSXBase.HTMLAttributes<HTMLAppHeaderElement>;
       'app-home': LocalJSX.AppHome & JSXBase.HTMLAttributes<HTMLAppHomeElement>;
       'app-root': LocalJSX.AppRoot & JSXBase.HTMLAttributes<HTMLAppRootElement>;
+      'flow-management': LocalJSX.FlowManagement & JSXBase.HTMLAttributes<HTMLFlowManagementElement>;
       'okta-login': LocalJSX.OktaLogin & JSXBase.HTMLAttributes<HTMLOktaLoginElement>;
     }
   }
