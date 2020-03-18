@@ -1,31 +1,22 @@
-import { h } from '@stencil/core';
+import { h, FunctionalComponent  } from '@stencil/core';
 
-export const auth = {
-  isAuthenticated: false,
-  login: function() {
-    this.isAuthenticated = true;
-    console.log('logging in');
-  },
-  logout: function() {
-    this.isAuthenticated = false;
-  }
+interface PrivateRouteProps {
+  url: string;
+  component: string;
+  isAuth: boolean;
 }
-// const isAuthenticated = (): boolean => {
-//   return auth.isAuthenticated;
-// }
 
-export const PrivateRoute = ({ component, ...props}: { [key: string]: any}) => {
-  const Component = component;
-  // const redirectUrl = props.failureRedirect || '/login';
+export const PrivateRoute: FunctionalComponent<PrivateRouteProps> = ({ component, isAuth }) => (
+  <stencil-route routeRender={
+    (props: { [key: string]: any}) => {
+      if (isAuth) {
+        const Component = component;
+        console.log(`Logged in, navigating to Home page.`);
+        return <Component {...props} />;
+      } 
+      console.log(`User is not logged in, navigating to Login page.`);
+      return <stencil-router-redirect url='/login'></stencil-router-redirect>
+    }
+  }/>
+);
 
-  return (
-    <stencil-route {...props} routeRender={
-      (props: { [key: string]: any}) => {
-        if (auth.isAuthenticated) {
-          return <Component {...props} {...props.componentProps}></Component>;
-        }
-        return <stencil-router-redirect url="/login"></stencil-router-redirect>
-      }
-    }/>
-  );
-}

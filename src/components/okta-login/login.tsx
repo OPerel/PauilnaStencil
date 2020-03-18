@@ -1,7 +1,7 @@
 import { Component, h, State, Prop } from '@stencil/core';
 import { RouterHistory } from '@stencil/router';
 
-import { auth } from '../private-route/private-route';
+import { Auth } from '../../helpers/oktaAuth';
 
 @Component({
   tag: 'okta-login',
@@ -17,7 +17,7 @@ export class Login {
     e.preventDefault();
     console.log('user: ', this.userName);
     console.log('password: ', this.password);
-    auth.login();
+    Auth.login();
     this.history.push('/home');
   }
 
@@ -27,6 +27,12 @@ export class Login {
 
   handlePasswordChange = (e: UIEvent): void => {
     this.password = (e.target as HTMLInputElement).value;
+  }
+
+  componentWillLoad() {
+    Auth.isAuthenticated().then(res => {
+      if (res) this.history.push('/');
+    });
   }
 
   render() {

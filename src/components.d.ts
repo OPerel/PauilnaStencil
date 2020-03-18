@@ -13,7 +13,9 @@ import {
 
 export namespace Components {
   interface AppHome {}
-  interface AppRoot {}
+  interface AppRoot {
+    'history': RouterHistory;
+  }
   interface OktaLogin {
     'history': RouterHistory;
   }
@@ -48,7 +50,9 @@ declare global {
 
 declare namespace LocalJSX {
   interface AppHome {}
-  interface AppRoot {}
+  interface AppRoot {
+    'history'?: RouterHistory;
+  }
   interface OktaLogin {
     'history'?: RouterHistory;
   }
