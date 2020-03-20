@@ -40,7 +40,7 @@ export class AppHeader {
                 <a onClick={this.handleLogout}>Log Out</a>
               </div>
             ) : 
-            <stencil-route-link url='/login' activeClass="active-link">Log In</stencil-route-link>  
+            <stencil-route-link id="login-link" url='/login' activeClass="active-link">Log In</stencil-route-link>  
           }
         </div>
       </header>

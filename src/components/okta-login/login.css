@@ -6,11 +6,25 @@
   width: 25vw;
   margin: 0 auto;
   padding: 30px;
-  border: solid 1px navy;
+  border: solid 2px navy;
+  border-radius: 5px;
+}
+
+.login-form h4 {
+  margin-top: 0;
 }
 
 .login-form input {
   width: -webkit-fill-available;
   margin: 2px 0;
   padding: 5px;
+}
+
+.login-form .login-failed {
+  color: red;
+  border: 0.5px solid;
+  border-radius: 5px;
+  padding: 5px;
+  text-align: center;
+  margin-top: 0;
 }

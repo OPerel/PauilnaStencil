@@ -41,7 +41,8 @@ class OktaAuthService {
         }
         reject(false);
       } catch (err) {
-        console.warn('Failed to login: ', err)
+        console.warn('Failed to login: ', err);
+        reject(err.message);
       }
     })
   }

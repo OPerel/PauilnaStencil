@@ -11,8 +11,13 @@ import { Auth } from '../../helpers/oktaAuth';
 export class Login {
   @State() userName: string;
   @State() password: string;
+  @State() loginFailed: boolean;
   @Prop() history: RouterHistory;
   @Event({ eventName: 'authChange' }) authChange: EventEmitter;
+
+  constructor() {
+    this.loginFailed = false;
+  }
 
   handleLoginSubmit = (e: UIEvent): void => {
     e.preventDefault();
@@ -24,12 +29,15 @@ export class Login {
 
     Auth.login(user).then(res => {
       if (res) {
-        console.log('login success: ', res)
+        console.log('login success user: ', res)
         this.authChange.emit(res)
         this.history.push('/flow-management');
       }
     })
-    .catch(err => console.log('login err: ', err));
+    .catch(err => {
+      this.loginFailed = true;
+      console.log('Login failed: ', err);
+    });
   }
 
   handleUserNameChange = (e: UIEvent): void => {
@@ -52,17 +60,18 @@ export class Login {
         <h2>Login</h2>
         <form class="login-form" onSubmit={(e: UIEvent) => this.handleLoginSubmit(e)}>
           <h4>Please Login</h4>
+          {this.loginFailed ? <p class="login-failed">Incorrect login. Please try again.</p> : <p></p>}
           <label>
             User Name:
-            <input type="text" value={this.userName} onInput={(e: UIEvent) => this.handleUserNameChange(e)} />
+            <input id="username-input" type="text" value={this.userName} onInput={(e: UIEvent) => this.handleUserNameChange(e)} />
           </label>
 
           <label>
             Password:
-            <input type="password" onInput={(e: UIEvent) => this.handlePasswordChange(e)} />
+            <input id="password-input" type="password" onInput={(e: UIEvent) => this.handlePasswordChange(e)} />
           </label>
 
-          <input type="submit" value="Login" />
+          <input id="submit-input" type="submit" value="Login" />
 
         </form>
       </div>
