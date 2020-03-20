@@ -12,5 +12,10 @@ export const config: Config = {
       serviceWorker: null,
       baseUrl: 'https://myapp.local/'
     }
-  ]
+  ],
+  testing: {
+    verbose: true,
+  //   browserHeadless: false,
+  //   browserSlowMo: 1000
+  }
 };

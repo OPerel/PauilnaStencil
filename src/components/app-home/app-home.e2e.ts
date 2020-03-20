@@ -9,11 +9,11 @@ describe('app-home', () => {
     expect(element).toHaveClass('hydrated');
   });
 
-  it('contains a "Profile Page" button', async () => {
+  it('should have "Welcome to FlowBiz!" title', async () => {
     const page = await newE2EPage();
     await page.setContent('<app-home></app-home>');
 
-    const element = await page.find('app-home >>> button');
-    expect(element.textContent).toEqual('Profile page');
+    const element = await page.find('app-home >>> h1');
+    expect(element.textContent).toEqual('Welcome to FlowBiz!');
   });
 });

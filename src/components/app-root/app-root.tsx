@@ -14,10 +14,10 @@ export class AppRoot {
   @State() isAuth: boolean;
   @State() user: any;
   @Listen('authChange')
-  async handleLogin(e: CustomEvent) {
+  async handleAuthChange(e: CustomEvent) {
     this.isAuth = e.detail ? true : false;
   }
-  @Watch('isAuth')
+  @Watch('isAuth') // check this
   async authChanged() {
     this.user = await Auth.getUser();
   }
