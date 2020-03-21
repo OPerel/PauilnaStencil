@@ -22,6 +22,10 @@ export namespace Components {
     'history': RouterHistory;
   }
   interface FlowManagement {}
+  interface FlowTable {
+    'flow': any;
+    'title': string;
+  }
   interface OktaLogin {
     'history': RouterHistory;
   }
@@ -54,6 +58,12 @@ declare global {
     new (): HTMLFlowManagementElement;
   };
 
+  interface HTMLFlowTableElement extends Components.FlowTable, HTMLStencilElement {}
+  var HTMLFlowTableElement: {
+    prototype: HTMLFlowTableElement;
+    new (): HTMLFlowTableElement;
+  };
+
   interface HTMLOktaLoginElement extends Components.OktaLogin, HTMLStencilElement {}
   var HTMLOktaLoginElement: {
     prototype: HTMLOktaLoginElement;
@@ -64,6 +74,7 @@ declare global {
     'app-home': HTMLAppHomeElement;
     'app-root': HTMLAppRootElement;
     'flow-management': HTMLFlowManagementElement;
+    'flow-table': HTMLFlowTableElement;
     'okta-login': HTMLOktaLoginElement;
   }
 }
@@ -80,6 +91,10 @@ declare namespace LocalJSX {
     'history'?: RouterHistory;
   }
   interface FlowManagement {}
+  interface FlowTable {
+    'flow'?: any;
+    'title'?: string;
+  }
   interface OktaLogin {
     'history'?: RouterHistory;
     'onAuthChange'?: (event: CustomEvent<any>) => void;
@@ -90,6 +105,7 @@ declare namespace LocalJSX {
     'app-home': AppHome;
     'app-root': AppRoot;
     'flow-management': FlowManagement;
+    'flow-table': FlowTable;
     'okta-login': OktaLogin;
   }
 }
@@ -104,6 +120,7 @@ declare module "@stencil/core" {
       'app-home': LocalJSX.AppHome & JSXBase.HTMLAttributes<HTMLAppHomeElement>;
       'app-root': LocalJSX.AppRoot & JSXBase.HTMLAttributes<HTMLAppRootElement>;
       'flow-management': LocalJSX.FlowManagement & JSXBase.HTMLAttributes<HTMLFlowManagementElement>;
+      'flow-table': LocalJSX.FlowTable & JSXBase.HTMLAttributes<HTMLFlowTableElement>;
       'okta-login': LocalJSX.OktaLogin & JSXBase.HTMLAttributes<HTMLOktaLoginElement>;
     }
   }

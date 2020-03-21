@@ -1,13 +1,14 @@
 declare const OktaAuth: any;
 
 class OktaAuthService {
-  authClient: any;
+  private authClient: any;
 
   constructor() {
     this.authClient = new OktaAuth({
     url: 'https://dev-662113.okta.com',
     clientId: '0oa38buw1cW33DAUq357',
-    redirectUri: 'http://localhost:3333/authorization-code/callback'
+    redirectUri: 'http://localhost:3333/authorization-code/callback',
+    issuer: 'https://dev-662113.okta.com/oauth2/default'
     });
     console.log('Okta init');
     this.login = this.login.bind(this);
@@ -25,15 +26,16 @@ class OktaAuthService {
         if (signIn.status === 'SUCCESS') {
           let userName: string;
           try {
-            const token = await this.authClient.token
+            const tokens = await this.authClient.token
               .getWithoutPrompt({
-                responseType: "id_token",
+                responseType: ["token", "id_token"],
                 scopes: ["openid", "profile", "email"],
                 sessionToken: signIn.sessionToken,
                 redirectUri: "http://localhost:3333"
               });
-            userName = token.claims.name;
-            this.authClient.tokenManager.add('idToken', token);
+            userName = tokens[1].claims.name;
+            this.authClient.tokenManager.add('accessToken', tokens[0]);
+            this.authClient.tokenManager.add('idToken', tokens[1]);
           } catch (err) {
             console.log('Failed to get tokens: ', err)
           }
@@ -55,8 +57,15 @@ class OktaAuthService {
 
   getUser = async (): Promise<any> => {
     try {
-      const user = await this.authClient.tokenManager.get('idToken');
-      return user;
+      return await this.authClient.tokenManager.get('idToken');
+    } catch (err) {
+      return err;
+    }
+  }
+
+  getAccessToken = async (): Promise<any> => {
+    try {
+      return await this.authClient.tokenManager.get('accessToken');
     } catch (err) {
       return err;
     }
