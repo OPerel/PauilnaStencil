@@ -24,7 +24,7 @@ export namespace Components {
   interface FlowManagement {}
   interface FlowTable {
     'flow': any;
-    'title': string;
+    'flowTitle': string;
   }
   interface OktaLogin {
     'history': RouterHistory;
@@ -93,7 +93,7 @@ declare namespace LocalJSX {
   interface FlowManagement {}
   interface FlowTable {
     'flow'?: any;
-    'title'?: string;
+    'flowTitle'?: string;
   }
   interface OktaLogin {
     'history'?: RouterHistory;

@@ -10,7 +10,9 @@ import { Api } from '../../helpers/apiService';
 export class FlowManagement {
   @State() userFlows: any;
 
-  componentWillLoad() {
+  constructor() {}
+
+  async componentWillLoad() {
     Api.getUserFlows()
       .then(res => res.json())
       .then(flows => {
@@ -25,11 +27,13 @@ export class FlowManagement {
       <div class="container">
         <h2>Flow Management</h2>
         {
-          Object.keys(this.userFlows).map((flow: any) => {
-            return this.userFlows[flow].length && this.userFlows[flow] instanceof Array ?
-              <flow-table title={flow} flow={this.userFlows[flow]} /> :
-              null;
-          })
+          this.userFlows ?
+            Object.keys(this.userFlows).map((flow: any) => {
+              return this.userFlows[flow].length && this.userFlows[flow] instanceof Array ?
+                <flow-table flowTitle={flow} flow={this.userFlows[flow]} /> :
+                null;
+            }) :
+              <h4>Loading...</h4>
         }
       </div>
     );

@@ -6,14 +6,17 @@ import { Component, h, Prop } from '@stencil/core';
   shadow: true
 })
 export class Table {
-  @Prop() title: string;
+  @Prop() flowTitle: string;
   @Prop() flow: any;
 
   render() {
     return (
       <div>
-        <h4>{this.title}</h4>
-        {this.flow.map((obj: any) => <p>{JSON.stringify(obj)}</p>)}
+        <h4>{this.flowTitle}</h4>
+        {this.flow.map((obj: any, idx: number) => [
+          <li>Object #<b>{idx + 1}</b>:</li>,
+          <p>{JSON.stringify(obj)}</p>
+        ])}
       </div>
     );
   }
