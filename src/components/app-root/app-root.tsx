@@ -15,7 +15,7 @@ export class AppRoot {
   @State() user: any;
   @Listen('authChange')
   async handleAuthChange(e: CustomEvent) {
-    this.isAuth = e.detail ? true : false;
+    this.isAuth = e.detail;
   }
   @Watch('isAuth') // check this
   async authChanged() {

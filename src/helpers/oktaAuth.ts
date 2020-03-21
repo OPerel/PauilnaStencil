@@ -18,9 +18,9 @@ class OktaAuthService {
     return await this.authClient.session.exists();
   }
 
-  login(user: {username: string, password: string}): Promise<any> {
+  login(user: {username: string, password: string}): Promise<string> {
     console.log('logging in');
-    return new Promise<any>(async (resolve, reject) => {
+    return new Promise<string>(async (resolve, reject) => {
       try {
         const signIn = await this.authClient.signIn(user);
         if (signIn.status === 'SUCCESS') {
@@ -37,11 +37,10 @@ class OktaAuthService {
             this.authClient.tokenManager.add('accessToken', tokens[0]);
             this.authClient.tokenManager.add('idToken', tokens[1]);
           } catch (err) {
-            console.log('Failed to get tokens: ', err)
+            console.warn('Failed to get tokens: ', err)
           }
           resolve(userName);
         }
-        reject(false);
       } catch (err) {
         console.warn('Failed to login: ', err);
         reject(err.message);

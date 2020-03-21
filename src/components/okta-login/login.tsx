@@ -30,7 +30,7 @@ export class Login {
     Auth.login(user).then(res => {
       if (res) {
         console.log('login success user: ', res)
-        this.authChange.emit(res)
+        this.authChange.emit(true)
         this.history.push('/flow-management');
       }
     })
@@ -63,12 +63,23 @@ export class Login {
           {this.loginFailed ? <p class="login-failed">Incorrect login. Please try again.</p> : <p></p>}
           <label>
             User Name:
-            <input id="username-input" type="text" value={this.userName} onInput={(e: UIEvent) => this.handleUserNameChange(e)} />
+            <input
+              id="username-input"
+              type="text"
+              value={this.userName}
+              onInput={(e: UIEvent) => this.handleUserNameChange(e)}
+              required
+            />
           </label>
 
           <label>
             Password:
-            <input id="password-input" type="password" onInput={(e: UIEvent) => this.handlePasswordChange(e)} />
+            <input
+              id="password-input"
+              type="password"
+              onInput={(e: UIEvent) => this.handlePasswordChange(e)}
+              required
+            />
           </label>
 
           <input id="submit-input" type="submit" value="Login" />
